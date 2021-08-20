@@ -1,11 +1,12 @@
-import java.util.List;
+import java.io.IOException;
+import java.nio.file.Files;
+
+import java.nio.file.Paths;
 import java.util.stream.Stream;
 
 public class IpFileReader {
 
-    public Stream<String> getStreamOfLines() {
-        return Stream.of("199.94.128.255",
-                "156.216.64.59",
-                "160.125.26.132", "160.125.26.132", "160.125.26.132","160.125.26.132", "0.0.0.0");
+    public Stream<String> getStreamOfLines() throws IOException {
+        return Files.lines(Paths.get("smallList.txt"));
     }
 }

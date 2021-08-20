@@ -1,3 +1,4 @@
+import java.io.IOException;
 import java.net.InetAddress;
 import java.nio.ByteBuffer;
 import java.util.BitSet;
@@ -21,9 +22,14 @@ public class CountIp {
     }
 
     public long getCount() {
-        return reader.getStreamOfLines()
-                .filter(this::isIpUniq)
-                .count();
+        try {
+            return reader.getStreamOfLines()
+                    .filter(this::isIpUniq)
+                    .count();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return 0;
     }
 
     private boolean isIpUniq(String ipLine) {
@@ -47,7 +53,7 @@ public class CountIp {
             }
         } else {
             int index = Math.abs(value);
-            if (!setOfNegative.get(Math.abs(index))) {
+            if (!setOfNegative.get(index)) {
                 setOfNegative.set(index);
                 return true;
             }
