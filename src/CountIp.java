@@ -13,7 +13,6 @@ public class CountIp {
     private final BitSet setOfPositive;
     private final IpFileReader reader;
 
-
     public CountIp(IpFileReader reader) {
         setOfNegative = new BitSet(Integer.MAX_VALUE);
         setOfPositive = new BitSet(Integer.MAX_VALUE);
@@ -32,7 +31,7 @@ public class CountIp {
     public long getCount() {
         try {
             return reader.getStreamOfLines()
-                    .parallel()
+//                    .parallel()
                     .filter(this::isIpUnique)
                     .count();
         } catch (IOException e) {
@@ -45,7 +44,7 @@ public class CountIp {
     cos ip range == integer range*/
     private boolean isIpUnique(String ipLine) {
         try {
-            return intIsUnique(ByteBuffer
+            return isIntUnique(ByteBuffer
                     .wrap(InetAddress
                             .getByName(ipLine)
                             .getAddress())
@@ -59,7 +58,7 @@ public class CountIp {
     /*Performs check for availability in the bitSet,
      * if address unique - changes boolean value to true
      * subtracting one, to avoid integer overflow */
-    private boolean intIsUnique(int value) {
+    private boolean isIntUnique(int value) {
         if (value >= 0) {
             if (!setOfPositive.get(value)) {
                 setOfPositive.set(value);
