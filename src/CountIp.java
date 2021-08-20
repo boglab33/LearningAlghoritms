@@ -5,7 +5,10 @@ import java.util.BitSet;
 
 public class CountIp {
 
-
+    /*Defining two BitSet for storing ipAddresses as indexes,
+    one bitSet stores negative numbers, other - positive
+    false means that address is never shown,
+    true - address was shown*/
     private final BitSet setOfNegative;
     private final BitSet setOfPositive;
     private final IpFileReader reader;
@@ -24,11 +27,13 @@ public class CountIp {
         System.out.println("Total execution time: " + ((endTime - startTime) / 1000) + "s");
     }
 
+    /*Iterate through stream of lines,
+    and count all uniq lines*/
     public long getCount() {
         try {
             return reader.getStreamOfLines()
                     .parallel()
-                    .filter(this::isIpUniq)
+                    .filter(this::isIpUnique)
                     .count();
         } catch (IOException e) {
             e.printStackTrace();
@@ -36,9 +41,11 @@ public class CountIp {
         return 0;
     }
 
-    private boolean isIpUniq(String ipLine) {
+    /*Wrapping String up into unique integer,
+    cos ip range == integer range*/
+    private boolean isIpUnique(String ipLine) {
         try {
-            return intIsUniq(ByteBuffer
+            return intIsUnique(ByteBuffer
                     .wrap(InetAddress
                             .getByName(ipLine)
                             .getAddress())
@@ -49,7 +56,10 @@ public class CountIp {
         return false;
     }
 
-    private boolean intIsUniq(int value) {
+    /*Performs check for availability in the bitSet,
+     * if address unique - changes boolean value to true
+     * subtracting one, to avoid integer overflow */
+    private boolean intIsUnique(int value) {
         if (value >= 0) {
             if (!setOfPositive.get(value)) {
                 setOfPositive.set(value);

@@ -6,7 +6,9 @@ import java.util.stream.Stream;
 
 public class IpFileReader {
 
+    public static final String PATH = "test.txt";
+
     public Stream<String> getStreamOfLines() throws IOException {
-        return Files.lines(Paths.get("test.txt"));
+        return Files.lines(Paths.get(PATH));
     }
 }
