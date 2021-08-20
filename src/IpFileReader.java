@@ -7,6 +7,6 @@ import java.util.stream.Stream;
 public class IpFileReader {
 
     public Stream<String> getStreamOfLines() throws IOException {
-        return Files.lines(Paths.get("smallList.txt"));
+        return Files.lines(Paths.get("test.txt"));
     }
 }

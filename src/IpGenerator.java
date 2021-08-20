@@ -3,8 +3,8 @@ import java.io.IOException;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class IpGenerator {
-    private static final String FILE_ADDRESS = "ipList.txt";
-    private static final int NUMBER_OF_ADDRESSES = 10_000_000_0;
+    private static final String FILE_ADDRESS = "test.txt";
+    private static final int NUMBER_OF_ADDRESSES = 10_000_000;
     public static void main(String[] args) {
         writeToTheFile();
     }

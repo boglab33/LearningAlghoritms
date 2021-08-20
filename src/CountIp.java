@@ -6,8 +6,8 @@ import java.util.BitSet;
 public class CountIp {
 
 
-    BitSet setOfNegative;
-    BitSet setOfPositive;
+    private final BitSet setOfNegative;
+    private final BitSet setOfPositive;
     private final IpFileReader reader;
 
 
@@ -18,12 +18,16 @@ public class CountIp {
     }
 
     public static void main(String[] args) {
+        final long startTime = System.currentTimeMillis();
         System.out.println(new CountIp(new IpFileReader()).getCount());
+        final long endTime = System.currentTimeMillis();
+        System.out.println("Total execution time: " + ((endTime - startTime) / 1000) + "s");
     }
 
     public long getCount() {
         try {
             return reader.getStreamOfLines()
+                    .parallel()
                     .filter(this::isIpUniq)
                     .count();
         } catch (IOException e) {
@@ -52,7 +56,7 @@ public class CountIp {
                 return true;
             }
         } else {
-            int index = Math.abs(value);
+            int index = Math.abs(value) - 1;
             if (!setOfNegative.get(index)) {
                 setOfNegative.set(index);
                 return true;
